@@ -21,6 +21,7 @@
     <form action="item.html" th:action th:object="${item}" method="post">
         <div>
             <label for="itemName">상품명</label>
+            <!-- th:field="*{itemName}"를 사용하면 id와 name 모두 itemName으로 생성되지만(+ value=""도 생성), label 인식을 위해 id는 남겨놓음 -->
             <input type="text" id="itemName" th:field="*{itemName}" class="form-control" placeholder="이름을 입력하세요">
         </div>
         <div>
@@ -38,7 +39,10 @@
         <div>판매 여부</div>
         <div>
             <div class="form-check">
+                <!-- 타임리프의 th:field를 사용하면 히든 필드 트릭을 자동으로 생성해줌 -->
                 <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">
+                <!-- 체크를 하지 않으면 null이 아닌 false가 서버로 넘어가도록 사용하는 히든 필드 트릭 -->
+                <!-- <input type="hidden" name="_open" value="on"/> -->
                 <label for="open" class="form-check-label">판매 오픈</label>
             </div>
         </div>
@@ -47,7 +51,10 @@
         <div>
             <div>등록 지역</div>
             <div th:each="region : ${regions}" class="form-check form-check-inline">
+                <!-- 아래 th:field="*{regions}"는 th:field="${item.regions}"와 같은 것 -->
+                <!-- 아래 th:value="${region.key}"에서 region은 위의 th:each에서 선언한 지역 변수 명 -->
                 <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
+                <!-- ${#ids.prev('regions')} : 동적으로 regions에 대한 id 생성(regions1, regions2, ...) -->
                 <label th:for="${#ids.prev('regions')}"
                        th:text="${region.value}" class="form-check-label">서울</label>
             </div>
@@ -57,7 +64,9 @@
         <div>
             <div>상품 종류</div>
             <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+                <!-- th:value="${type.name()}"로 enum을 가져올 수 있음 (BOOK, FOOD 등) -->
                 <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input">
+                <!-- th:text="${type.description}"로 enum의 value를 가져올 수 있음 (도서, 음식 등) -->
                 <label th:for="${#ids.prev('itemType')}" th:text="${type.description}" class="form-check-label">
                     BOOK
                 </label>

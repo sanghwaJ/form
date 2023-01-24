@@ -24,8 +24,10 @@ public class FormItemController {
 
     private final ItemRepository itemRepository;
 
+    // 컨트롤러를 호출할 때, regions에서 반환한 값을 어떤 메소드든 자동으로 모델에 담음
     @ModelAttribute("regions")
     public Map<String, String> regions() {
+        // 순서를 보장하기위해 LinkedHashMap 사용
         Map<String, String> regions = new LinkedHashMap<>();
         regions.put("SEOUL", "서울");
         regions.put("BUSAN", "부산");
@@ -35,6 +37,7 @@ public class FormItemController {
 
     @ModelAttribute("itemTypes")
     public ItemType[] itemTypes() {
+        // enum을 array로 리턴
         return ItemType.values();
     }
 
@@ -65,6 +68,14 @@ public class FormItemController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("item", new Item());
+
+        // ModelAttribute로 대체
+        // Map<String, String> regions = new LinkedHashMap<>();
+        // regions.put("SEOUL", "서울");
+        // regions.put("BUSAN", "부산");
+        // regions.put("JEJU", "제주");
+        // model.addAttribute("regions", regions);
+
         return "form/addForm";
     }
 

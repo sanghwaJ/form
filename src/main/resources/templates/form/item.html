@@ -44,6 +44,8 @@
     <div>판매 여부</div>
     <div>
         <div class="form-check">
+            <!-- th:field는 checked 처리도 자동으로 해줌(체크가 되어있는 경우 checked 속성 생성, 아닌 경우 checked 속성 없음) -->
+            <!-- 상품 상세에서 체크박스를 컨트롤 할 수 없도록 disabled 처리 -->
             <input type="checkbox" id="open" th:field="${item.open}" class="form-check-input" disabled>
             <label for="open" class="form-check-label">판매 오픈</label>
         </div>
